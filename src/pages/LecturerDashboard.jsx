@@ -1,6 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { faChalkboardTeacher, faUpload, faCalendarCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChalkboardTeacher, faUpload, faCalendarCheck, faEye } from '@fortawesome/free-solid-svg-icons'
 
 const LecturerDashboard = () => {
   const overviewCards = [
@@ -41,6 +42,7 @@ const LecturerDashboard = () => {
     // Add more rows as needed
   ];
   return (
+    <div style={{ minHeight: "100vh", background: "#f8f9fa", display: "flex", }}>
     <div
       className="dashboard container"
       style={{
@@ -76,23 +78,23 @@ const LecturerDashboard = () => {
       {/* Quick Actions */}
       <div className="mb-4 d-flex flex-wrap gap-3 justify-content-center">
         <button className="btn btn-outline-primary btn-custom">
-          <i className="fa fa-upload me-2"></i>Upload Material
+          <FontAwesomeIcon icon={faUpload} />  Upload Material
         </button>
         <button className="btn btn-outline-success btn-custom">
-          <i className="fa fa-calendar-check me-2"></i>Mark Attendance
+          <FontAwesomeIcon icon={faCalendarCheck} />Mark Attendance
         </button>
         <button className="btn btn-outline-secondary btn-custom">
-          <i className="fa fa-eye me-2"></i>View Lab Access Log
+          <FontAwesomeIcon icon={faEye} />View Lab Access Log
         </button>
       </div>
 
       {/* Class Table */}
-      <div className="card">
+      <div className="card" style={{ padding: "0" }}>
         <div className="card-header bg-dark text-white">
           Your Practical Classes
         </div>
-        <div className="card-body p-0">
-          <table className="table mb-0">
+        <div className="card-body" style={{padding: "0"}}>
+          <table className="table" style={{marginBottom: "0"}}>
             <thead style={{ backgroundColor: "#343a40", color: "white" }}>
               <tr>
                 <th>Course Code</th>
@@ -120,6 +122,7 @@ const LecturerDashboard = () => {
           </table>
         </div>
       </div>
+    </div>
     </div>
   );
 };
