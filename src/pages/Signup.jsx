@@ -1,18 +1,46 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Signup = () => {
   const [role, setRole] = useState("student");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
+    // Simple email validation (checks for @ and .)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert("Signup successful! You can now log in.");
+      navigate("/login"); // Redirect to login page after signup
+    } catch (err) {
+      setError(err.message);
+    }
     // Handle login logic here
     // Example: console.log({ role, email, password });
-    navigate("/admin-dashboard"); // Redirect to admin dashboard after signup
   };
 
   const inputCSS = {
@@ -22,7 +50,26 @@ const Signup = () => {
     borderRadius: 6,
     border: "1px solid #ccc",
     backgroundColor: "#fff",
-    color: "#333",
+    color: "black",
+  };
+
+  const passwordInputWrapper = {
+    position: "relative",
+    width: "100%",
+    marginTop: 5,
+  };
+
+  const eyeIconStyle = {
+    position: "absolute",
+    right: 12,
+    top: "50%",
+    transform: "translateY(-50%)",
+    cursor: "pointer",
+    color: "#888",
+    fontSize: 18,
+    background: "none",
+    border: "none",
+    padding: 0,
   };
 
   return (
@@ -59,9 +106,14 @@ const Signup = () => {
 
           <label
             htmlFor="role"
-            style={{ display: "block", marginTop: 15, fontWeight: 500 }}
+            style={{
+              display: "block",
+              marginTop: 15,
+              fontWeight: 500,
+              textAlign: "left",
+            }}
           >
-            Login as:
+            Sign Up as:
           </label>
           <select
             id="role"
@@ -85,7 +137,12 @@ const Signup = () => {
 
           <label
             htmlFor="email"
-            style={{ display: "block", marginTop: 15, fontWeight: 500 }}
+            style={{
+              display: "block",
+              marginTop: 15,
+              fontWeight: 500,
+              textAlign: "left",
+            }}
           >
             Email / Matric No:
           </label>
@@ -101,19 +158,69 @@ const Signup = () => {
 
           <label
             htmlFor="password"
-            style={{ display: "block", marginTop: 15, fontWeight: 500 }}
+            style={{
+              display: "block",
+              marginTop: 15,
+              fontWeight: 500,
+              textAlign: "left",
+            }}
           >
             Password:
           </label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={inputCSS}
-          />
+          <div style={passwordInputWrapper}>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              placeholder="Enter password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={inputCSS}
+            />
+            <button
+              type="button"
+              style={eyeIconStyle}
+              onClick={() => setShowPassword((prev) => !prev)}
+              tabIndex={-1}
+            >
+              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+            </button>
+          </div>
+
+          <label
+            htmlFor="confirmPassword"
+            style={{
+              display: "block",
+              marginTop: 15,
+              fontWeight: 500,
+              textAlign: "left",
+            }}
+          >
+            Confirm Password:
+          </label>
+          <div style={passwordInputWrapper}>
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              id="confirmPassword"
+              placeholder="Confirm password"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              style={inputCSS}
+            />
+            <button
+              type="button"
+              style={eyeIconStyle}
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              tabIndex={-1}
+            >
+              <FontAwesomeIcon
+                icon={showConfirmPassword ? faEyeSlash : faEye}
+              />
+            </button>
+          </div>
+
+          {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
 
           <button
             type="submit"
