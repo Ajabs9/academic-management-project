@@ -10,28 +10,34 @@ import AdminDashboard from "./pages/AdminDashboard";
 import LecturerDashboard from "./pages/LecturerDashboard";
 import Studentdashboard from "./pages/Studentdashboard";
 import EquipmentMonitoring from "./pages/EquipmentMonitoring";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/lecturer-dashboard" element={<LecturerDashboard />} />
-        <Route
-          path="/lab-supervisor-dashboard"
-          element={<LabSupervisorDashboard />}
-        />
-        <Route path="student-dashboard" element={<Studentdashboard />} />
-        <Route path="equipment-monitoring" element={<EquipmentMonitoring />} />
-        {/* <Route path="/profile" element={<Profile />} /> */}
-      </Routes>
-      <ToastContainer />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/lecturer-dashboard" element={<LecturerDashboard />} />
+          <Route
+            path="/lab-supervisor-dashboard"
+            element={<LabSupervisorDashboard />}
+          />
+          <Route path="student-dashboard" element={<Studentdashboard />} />
+          <Route
+            path="equipment-monitoring"
+            element={<EquipmentMonitoring />}
+          />
+          {/* <Route path="/profile" element={<Profile />} /> */}
+        </Routes>
+        <ToastContainer />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
