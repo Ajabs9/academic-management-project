@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { doc, setDoc } from "firebase/firestore";
 
 const Signup = () => {
   const [role, setRole] = useState("student");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -34,6 +36,15 @@ const Signup = () => {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Save additional data in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        email: user.email,
+        username: username,
+        createdAt: new Date(),
+      });
       alert("Signup successful! You can now log in.");
       navigate("/login"); // Redirect to login page after signup
     } catch (err) {
@@ -80,8 +91,9 @@ const Signup = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        height: "100vh",
+        minHeight: "100vh",
         margin: 0,
+        padding: 20,
       }}
     >
       <div
@@ -103,6 +115,22 @@ const Signup = () => {
           <p style={{ textAlign: "center", color: "#555", marginBottom: 20 }}>
             University of Ibadan
           </p>
+
+          <div>
+            <label>Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              style={{
+                display: "block",
+                marginTop: 15,
+                fontWeight: 500,
+                textAlign: "left",
+              }}
+            />
+          </div>
 
           <label
             htmlFor="role"
@@ -238,6 +266,21 @@ const Signup = () => {
           >
             Sign Up
           </button>
+          <Link
+            to="/login"
+            href="#"
+            style={{
+              display: "block",
+              textAlign: "center",
+              marginTop: 15,
+              color: "#1a237e",
+              textDecoration: "none",
+              fontSize: 14,
+            }}
+          >
+            Already have an account? Log 
+            In
+          </Link>
         </form>
       </div>
     </div>

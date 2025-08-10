@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -204,6 +204,19 @@ const Login = () => {
           >
             Forgot Password?
           </a>
+          <Link to="/signup"
+            href="#"
+            style={{
+              display: "block",
+              textAlign: "center",
+              marginTop: 15,
+              color: "#1a237e",
+              textDecoration: "none",
+              fontSize: 14,
+            }}
+          >
+            Don't have an account? Sign Up
+          </Link>
         </form>
       </div>
     </div>
