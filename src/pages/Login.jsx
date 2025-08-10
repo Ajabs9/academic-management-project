@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [role, setRole] = useState("student");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -24,8 +27,21 @@ const Login = () => {
       return;
     }
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      alert("Login successful!");
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Fetch user data from Firestore
+      const docRef = await doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        console.log("User data:", userData);
+      }else{
+        console.log("No User data found!");
+      }
+
+      toast.success("Login successful!");
       if (role === "admin") {
         navigate("/admin-dashboard");
       } else if (role === "lecturer") {
@@ -37,6 +53,8 @@ const Login = () => {
       }
     } catch (err) {
       setError(err.message);
+      toast.error("Login failed. Please check your credentials.");
+      console.error("Login error:", err);
     }
     // Handle login logic here
     // Example: console.log({ role, email, password });
@@ -131,15 +149,40 @@ const Login = () => {
           </select> */}
 
           <label
-            htmlFor="email"
-            style={{ display: "block", marginTop: 15, fontWeight: 500, textAlign: "left"  }}
+            htmlFor="username"
+            style={{
+              display: "block",
+              marginTop: 15,
+              fontWeight: 500,
+              textAlign: "left",
+            }}
           >
-            Email / Matric No:
+            Username
+          </label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            style={inputCSS}
+          />
+
+          <label
+            htmlFor="email"
+            style={{
+              display: "block",
+              marginTop: 15,
+              fontWeight: 500,
+              textAlign: "left",
+            }}
+          >
+            Email:
           </label>
           <input
             type="text"
             id="email"
-            placeholder="Enter your email or matric no"
+            placeholder="Enter your email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -148,7 +191,12 @@ const Login = () => {
 
           <label
             htmlFor="password"
-            style={{ display: "block", marginTop: 15, fontWeight: 500, textAlign: "left"  }}
+            style={{
+              display: "block",
+              marginTop: 15,
+              fontWeight: 500,
+              textAlign: "left",
+            }}
           >
             Password:
           </label>
@@ -204,7 +252,8 @@ const Login = () => {
           >
             Forgot Password?
           </a>
-          <Link to="/signup"
+          <Link
+            to="/signup"
             href="#"
             style={{
               display: "block",

@@ -5,6 +5,7 @@ import { auth, db } from "../firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { doc, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const [role, setRole] = useState("student");
@@ -35,7 +36,11 @@ const Signup = () => {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       // Save additional data in Firestore
@@ -45,10 +50,19 @@ const Signup = () => {
         username: username,
         createdAt: new Date(),
       });
-      alert("Signup successful! You can now log in.");
+
+      console.log({
+        uid: user.uid,
+        email: user.email,
+        username: username,
+        createdAt: new Date(),
+      });
+      toast.success("Signup successful!");
       navigate("/login"); // Redirect to login page after signup
     } catch (err) {
       setError(err.message);
+      toast.error("Login failed. Please check your credentials.");
+      console.error("Login error:", err);
     }
     // Handle login logic here
     // Example: console.log({ role, email, password });
@@ -116,21 +130,25 @@ const Signup = () => {
             University of Ibadan
           </p>
 
-          <div>
-            <label>Username</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              style={{
-                display: "block",
-                marginTop: 15,
-                fontWeight: 500,
-                textAlign: "left",
-              }}
-            />
-          </div>
+          <label
+            htmlFor="username"
+            style={{
+              display: "block",
+              marginTop: 15,
+              fontWeight: 500,
+              textAlign: "left",
+            }}
+          >
+            Username
+          </label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            style={inputCSS}
+          />
 
           <label
             htmlFor="role"
@@ -278,8 +296,7 @@ const Signup = () => {
               fontSize: 14,
             }}
           >
-            Already have an account? Log 
-            In
+            Already have an account? Log In
           </Link>
         </form>
       </div>
