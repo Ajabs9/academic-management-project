@@ -9,7 +9,6 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 
 const Login = () => {
-  const [role, setRole] = useState("student");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,11 +46,11 @@ const Login = () => {
       }
 
       toast.success("Login successful!");
-      if (role === "admin") {
+      if (userData.role === "admin") {
         navigate("/admin-dashboard");
-      } else if (role === "lecturer") {
+      } else if (userData.role === "lecturer") {
         navigate("/lecturer-dashboard");
-      } else if (role === "lab-supervisor") {
+      } else if (userData.role === "lab-supervisor") {
         navigate("/lab-supervisor-dashboard");
       } else {
         navigate("/student-dashboard");
