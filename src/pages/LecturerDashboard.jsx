@@ -2,8 +2,10 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChalkboardTeacher, faUpload, faCalendarCheck, faEye } from '@fortawesome/free-solid-svg-icons'
+import { useAuth } from "../contexts/AuthContext";
 
 const LecturerDashboard = () => {
+  const { currentUser, userData } = useAuth();
   const overviewCards = [
     {
       title: "Practical Classes",
@@ -54,7 +56,9 @@ const LecturerDashboard = () => {
       }}
     >
       <div className="welcome text-center mb-4">
-        <h2>👨‍🏫 Welcome, Prof. Adekunle!</h2>
+        {/* Use ? so that an error isn't raised during testing*/}
+        {/* Remove ? when testing is done */}
+        <h2>👨‍🏫 Welcome {userData?.username}</h2>
         <p className="text-muted">Here's a quick overview of your activities</p>
       </div>
 

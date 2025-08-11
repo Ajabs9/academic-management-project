@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { useAuth } from "../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
@@ -14,6 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { setUserData } = useAuth();
 
   const navigate = useNavigate();
 
@@ -36,8 +38,11 @@ const Login = () => {
 
       if (docSnap.exists()) {
         const userData = docSnap.data();
+        setUserData(userData); // <-- Store in context
         console.log("User data:", userData);
       }else{
+        setUserData(null); // No user data found
+        toast.error("No user data found!");
         console.log("No User data found!");
       }
 

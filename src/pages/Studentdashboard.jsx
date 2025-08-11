@@ -1,7 +1,9 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useAuth } from '../contexts/AuthContext';
 
 const Studentdashboard = () => {
+  const { currentUser, userData } = useAuth();
 
   const sidebarLinks = [
   { label: "🏠 Dashboard", active: true },
@@ -61,7 +63,9 @@ const progressStats = [
       {/* Main Content */}
       <div className="col-md-10 content" style={{ padding: 20, background: "#f7f9fc", height: "100vh", overflowY: "auto" }}>
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h3>Welcome back, Teniayo 👋</h3>
+        {/* Use ? so that an error isn't raised during testing*/}
+        {/* Remove ? when testing is done */}
+        <h2>Welcome back {userData?.username}</h2>
           <div>
             <button className="btn btn-outline-secondary me-2">🔔</button>
             <button className="btn btn-outline-secondary">👤</button>

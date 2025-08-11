@@ -1,7 +1,10 @@
 import React from "react";
 import "../styles/AdminDashboard.css"; // Assuming you have a CSS file for styles
+import { useAuth } from "../contexts/AuthContext";
 
 const AdminDashboard = () => {
+  const { currentUser, userData } = useAuth();
+
   const sidebarLinks = [
   "Dashboard",
   "Manage Students",
@@ -34,7 +37,9 @@ return (
 
     <main className="main-content">
       <header>
-        <h1>Welcome, Admin</h1>
+        {/* Use ? so that an error isn't raised during testing*/}
+        {/* Remove ? when testing is done */}
+        <h2>Welcome {userData?.username}</h2>
         <p>Department of Computer Science, UI</p>
       </header>
 

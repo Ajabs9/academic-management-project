@@ -10,6 +10,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,7 +24,8 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
-    // You could add login, logout functions here
+    userData,
+    setUserData, // Expose setter so you can update after login
   };
 
   return (
