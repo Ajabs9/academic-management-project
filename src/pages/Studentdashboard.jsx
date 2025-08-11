@@ -1,6 +1,7 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useAuth } from '../contexts/AuthContext';
+import FloatingChatbot from "../components/FloatingChatbot";
 
 const Studentdashboard = () => {
   const { currentUser, userData } = useAuth();
@@ -140,6 +141,7 @@ const progressStats = [
         </footer>
       </div>
     </div>
+    <FloatingChatbot />
     </div>
   )
 }

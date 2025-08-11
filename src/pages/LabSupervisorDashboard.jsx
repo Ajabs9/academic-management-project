@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import FloatingChatbot from "../components/FloatingChatbot";
 
 const equipmentList = [
   { name: "Projector", sensorId: "S001", status: "Online", lastMovement: "2 mins ago" },
@@ -78,6 +79,7 @@ const LabSupervisorDashboard = () => {
           <p style={{ marginTop: 10, fontWeight: "bold" }}>Alerts: {alertsEnabled ? "ON" : "OFF"}</p>
         </div>
       </div>
+      <FloatingChatbot />
     </div>
   );
 };

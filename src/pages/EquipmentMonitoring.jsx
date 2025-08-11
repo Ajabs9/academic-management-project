@@ -1,7 +1,15 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { faS, faHome, faDesktop, faFileAlt,faUsers, faSignOutAlt  } from "@fortawesome/free-solid-svg-icons";
+import {
+  faS,
+  faHome,
+  faDesktop,
+  faFileAlt,
+  faUsers,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FloatingChatbot from "../components/FloatingChatbot";
 
 const EquipmentMonitoring = () => {
   const equipmentData = [
@@ -38,20 +46,67 @@ const EquipmentMonitoring = () => {
           color: "#fff",
         }}
       >
-        <h2 className="mb-4" style={{fontSize: "30px"}}>Lab System</h2>
-        <a href="#" style={{ color: "#fff", textDecoration: "none", fontSize: "1.2rem", marginBottom: "0.7rem", textAlign: "left" }}>
+        <h2 className="mb-4" style={{ fontSize: "30px" }}>
+          Lab System
+        </h2>
+        <a
+          href="#"
+          style={{
+            color: "#fff",
+            textDecoration: "none",
+            fontSize: "1.2rem",
+            marginBottom: "0.7rem",
+            textAlign: "left",
+          }}
+        >
           <FontAwesomeIcon icon={faHome} /> Dashboard
         </a>
-        <a href="#" style={{ color: "#fff", textDecoration: "none", fontSize: "1.2rem", marginBottom: "0.7rem", textAlign: "left" }}>
+        <a
+          href="#"
+          style={{
+            color: "#fff",
+            textDecoration: "none",
+            fontSize: "1.2rem",
+            marginBottom: "0.7rem",
+            textAlign: "left",
+          }}
+        >
           <FontAwesomeIcon icon={faDesktop} /> Equipment
         </a>
-        <a href="#" style={{ color: "#fff", textDecoration: "none", fontSize: "1.2rem", marginBottom: "0.7rem", textAlign: "left" }}>
+        <a
+          href="#"
+          style={{
+            color: "#fff",
+            textDecoration: "none",
+            fontSize: "1.2rem",
+            marginBottom: "0.7rem",
+            textAlign: "left",
+          }}
+        >
           <FontAwesomeIcon icon={faFileAlt} /> Reports
         </a>
-        <a href="#" style={{ color: "#fff", textDecoration: "none", fontSize: "1.2rem", marginBottom: "0.7rem", textAlign: "left" }}>
+        <a
+          href="#"
+          style={{
+            color: "#fff",
+            textDecoration: "none",
+            fontSize: "1.2rem",
+            marginBottom: "0.7rem",
+            textAlign: "left",
+          }}
+        >
           <FontAwesomeIcon icon={faUsers} /> Users
         </a>
-        <a href="#" style={{ color: "#fff", textDecoration: "none", fontSize: "1.2rem", marginBottom: "0.7rem", textAlign: "left" }}>
+        <a
+          href="#"
+          style={{
+            color: "#fff",
+            textDecoration: "none",
+            fontSize: "1.2rem",
+            marginBottom: "0.7rem",
+            textAlign: "left",
+          }}
+        >
           <FontAwesomeIcon icon={faSignOutAlt} /> Logout
         </a>
       </div>
@@ -141,12 +196,16 @@ const EquipmentMonitoring = () => {
 
         {/* Floor Plan Placeholder */}
         <div className="mt-5">
-          <h5 style={{textAlign: "left"}}>🗺️ Floor Plan View (Coming Soon)</h5>
+          <h5 style={{ textAlign: "left" }}>
+            🗺️ Floor Plan View (Coming Soon)
+          </h5>
           <div className="bg-light p-5 text-center border rounded">
             <em>Visual sensor map under construction...</em>
           </div>
         </div>
       </div>
+
+      <FloatingChatbot />
     </div>
   );
 };
