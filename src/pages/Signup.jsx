@@ -48,12 +48,14 @@ const Signup = () => {
         uid: user.uid,
         email: user.email,
         username: username,
+        role: role,
         createdAt: new Date(),
       });
 
       console.log({
         uid: user.uid,
         email: user.email,
+        role: role,
         username: username,
         createdAt: new Date(),
       });
